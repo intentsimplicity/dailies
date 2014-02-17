@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 use File::Spec;
+use Smart::Comments
 
 
 # Setup paths
@@ -13,6 +14,8 @@ my $export_path = File::Spec->catdir($base_path, 'export');
 
 # Check camera connection
 sub check_connection {
+  
+  ### Running Auto-Detect...
   my @response = `gphoto2 --auto-detect`;
   if (scalar @response gt 2) {
     my $count = scalar @response - 2;
@@ -29,10 +32,21 @@ sub check_connection {
 
 # Capture image
 sub capture_image {
+  
+  ### Checking Connection...
   my $connection = check_connection;
   if ($connection =~ /\d/) {
+    
+    ### Moving to Import Directory...
     chdir $import_path;
+    
+    ### Capturing Image...
     my @response = `gphoto2 --capture-image-and-download`;
+    if (scalar @response =~ /Deleting/) {
+      print "Image downloaded...\n";
+    } else {
+      die "Could not download the image."
+    }
   }
 }
 
