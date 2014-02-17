@@ -4,8 +4,18 @@ use strict;
 use warnings;
 
 # Set paths
-$import_path = "/import";
-$export_path = "/export";
-$config_path = "/config";
+my $import_path = "/import";
+my $export_path = "/export";
+my $config_path = "/config";
 
-# Check the initial setup before doing anything else.
+# Check camera connection
+sub check_connection {
+  my @response = `gphoto2 --auto-detect`;
+  if (scalar @response gt 2) {
+    print "Camera connected!\n\n";
+  } else {
+    die "No camera connected!\n\n"
+  }
+}
+
+check_connection
