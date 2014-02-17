@@ -2,6 +2,14 @@
 
 use strict;
 use warnings;
+use File::Spec;
+
+
+# Setup paths
+my $base_path = File::Spec->curdir();
+my $import_path = File::Spec->catdir($base_path, 'import');
+my $export_path = File::Spec->catdir($base_path, 'export');
+
 
 # Check camera connection
 sub check_connection {
@@ -18,4 +26,15 @@ sub check_connection {
   }
 }
 
-check_connection
+
+# Capture image
+sub capture_image {
+  my $connection = check_connection;
+  if ($connection =~ /\d/) {
+    chdir $import_path;
+    my @response = `gphoto2 --capture-image-and-download`;
+  }
+}
+
+
+capture_image;
