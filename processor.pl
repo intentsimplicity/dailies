@@ -3,18 +3,18 @@
 use strict;
 use warnings;
 
-# Set paths
-my $import_path = "/import";
-my $export_path = "/export";
-my $config_path = "/config";
-
 # Check camera connection
 sub check_connection {
   my @response = `gphoto2 --auto-detect`;
   if (scalar @response gt 2) {
-    print "Camera connected!\n\n";
+    my $count = scalar @response - 2;
+    if ($count eq 1) {
+      print "${count} camera connected.\n\n";
+    } else {
+      print "${count} cameras connected.\n\n";
+    }
   } else {
-    die "No camera connected!\n\n"
+    die "Oops! Please check the camera's power.\n\n";
   }
 }
 
