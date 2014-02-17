@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 use File::Spec;
-use Smart::Comments
+# use Smart::Comments
 
 
 # Setup paths
@@ -41,8 +41,8 @@ sub capture_image {
     chdir $import_path;
     
     ### Capturing Image...
-    my @response = `gphoto2 --capture-image-and-download`;
-    if (scalar @response =~ /Deleting/) {
+    my $response = `gphoto2 --capture-image-and-download`;
+    if ($response =~ /Deleting/) {
       print "Image downloaded...\n";
     } else {
       die "Could not download the image."
